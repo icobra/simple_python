@@ -4,23 +4,19 @@ from random import randint
 
 def guess():
     # Check user input and return correct answer
-    number = None
-    condition = True
-    while condition:
+    while True:
         number = input("Press '1' ,'2' or 'e(xit)'  and then press 'Enter'")
         if number == '1' or number == '2':
-            condition = False
+            return number
         elif number == 'e':
             exit()
         else:
             print("Incoret input")
-    return number
 
 def roulette():
     # Spin chamber and pull trigger.
     life = None # True for live, and false to alive
-    number = randint(0,100)
-    if number > 30:   # Condition to successful validation pull trigger.
+    if (randint(0,100)) > 30:   # Condition to successful validation pull trigger.
         life = True
     else:
         life = False
