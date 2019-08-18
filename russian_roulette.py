@@ -15,12 +15,11 @@ def guess():
 
 def roulette():
     # Spin chamber and pull trigger.
-    life = None # True for live, and false for dead
+    # True for live, and false for dead
     if (randint(0,100)) > 30:   # Condition to successful validation pull trigger.
-        life = True
+        return True
     else:
-        life = False
-    return life
+        return False
 
 def game():
     # main loop of game
