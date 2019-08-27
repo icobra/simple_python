@@ -6,14 +6,6 @@
     Coder/decoder + checking the validity
 """
 
-def controling(string):
-    # Control str is digit or not. 
-    if str(string).isdigit():
-        return True
-    else:
-        # String must contain in only digit
-        return False
-
 def number_sum(string):
     # find sum to all digits without ECC number
     numbers = list(str(string))
@@ -31,19 +23,19 @@ def number_sum(string):
     return(number_sum)
 
 def lunh_controling(string):
-    # Count control string.
-    number = str(string)[:-1]
-    total_count = number_sum(number)
-    value = int(total_count) + int(str(string)[-1])
-    # Control multiplicity 10
-    if value % 10 == 0:
-        return True
+    if str(string).isdigit():
+        # Count control string.
+        number = str(string)[:-1]
+        total_count = number_sum(number)
+        value = int(total_count) + int(str(string)[-1])
+        # Control multiplicity 10
+        return(value % 10 == 0)
     else:
         return False    
 
 def to_lunh(string):
     # Add control number.
-    if controling(string):
+    if str(string).isdigit():
         total_count = int(number_sum(string))
         # Find control number
         control = 0
@@ -60,6 +52,8 @@ def to_lunh(string):
         return("Wrong date type")
 
 def to_normal(string):
+    if not(str(string).isdigit()):
+        return("Wrong string")
     # Del control number.
     if lunh_controling(string):
         string = str(string)[:-1]
@@ -87,14 +81,6 @@ print(to_normal(12345))
 print(to_normal("1230"))
 print(to_normal("357"))
 print("End to_normal \n")
-
-# Controling
-print("Controling \n")
-
-print(controling(123))
-print(controling("12345"))
-print(controling("one two three"))
-print("End Controling \n")
 
 # Lunh_controling
 print("Lunch_Controling \n")
