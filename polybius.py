@@ -15,33 +15,54 @@ import sys
 6 	Э 	Ю 	Я 	- 	- 	- 
 """
 
-# Hard dictonary
-# TODO to many languages
-SIGNS = '1234567890!@#$%&()-=+/*<>,.\'"\\{}:;'
-ENG_LETTERS = "abcdefghijklmnopqrstuvwxyz"
-RUS_LETTERS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
 
-hard_dictionary = {"А":"11", "Б":"12", "В":"13", "Г":"14", "Д":"15", "Е":"16",
-    "Ё":"21", "Ж":"22", "З":"23", "И":"24","Й":"25", "К":"26", "Л":"31",
-    "М":"32", "Н":"33", "О":"34", "П":"35", "Р":"36", "С":"41", "Т":"42",
-    "У":"43", "Ф":"44", "Х":"45", "Ц":"46", "Ч":"51", "Ш":"52", "Щ":"53",
-    "Ъ":"54", "Ы":"55", "Ь":"56", "Э":"61", "Ю":"62", "Я":"63"}
+# Make dictonary
+def make_dictionary(alphabets_used):
+    SIGNS = '1234567890!@#$%&()-=+/*<>,.\'"\\{}:;'
+    ENG_LETTERS = "abcdefghijklmnopqrstuvwxyz"
+    RUS_LETTERS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
 
+    if alphabets_used == "en":
+        alphabet = ENG_LETTERS + ENG_LETTERS.upper() + SIGNS
+        alphabet_len = 86
+    elif alphabets_used == "rus":
+        alphabet = RUS_LETTERS + RUS_LETTERS.upper() + SIGNS
+        alphabet_len = 100
+    else:
+        print("Sorry, part under construction - use rus or en only")
+        alphabet = RUS_LETTERS + RUS_LETTERS.upper() + SIGNS
+        alphabet_len = 100
+        """
+        alphabet = ENG_LETTERS + ENG_LETTERS.upper() +\
+        RUS_LETTERS + RUS_LETTERS.upper() + SIGNS
+        alphabet_len = 169
+        pass // TODO
+        """
+    def dict_generator(alphabet_len, alphabet):
+        numbers = ["%02d"%(num) for num in range(alphabet_len)]
+        letter_dict = {}
+        for x in range (alphabet_len):
+            letter_dict[alphabet[x]] = numbers[x]
+        return letter_dict 
+
+    new_dict = dict_generator(alphabet_len, alphabet)
+    return new_dict
+   
 
 # Code
-def code(fraze):
+def code(fraze, dictionary):
     new_txt = ""
     list_fraze = list(fraze)
     for x in fraze:
-        if x in hard_dictionary:
-            new_txt += hard_dictionary.get(x)
+        if x in dictionary:
+            new_txt += dictionary.get(x)
         else:
             new_txt += (x + x)
     return new_txt
 
 # Decode
 # 63  3162123162  42161263 - test fraze
-def decode(fraze):
+def decode(fraze, dictionary):
     new_txt = ""
     list_fraze = []
     # str to list with letter length steep 
@@ -50,13 +71,13 @@ def decode(fraze):
         list_fraze.append(fraze[i:step])
         step += 2
     # list to decode fraze
-    key_hard_dictionary_list = list(hard_dictionary.keys())
-    val_hard_dictionary_list = list(hard_dictionary.values())  
+    key_dictionary_list = list(dictionary.keys())
+    val_dictionary_list = list(dictionary.values())  
 
     for x in list_fraze:
-        if x in val_hard_dictionary_list:
-            i = val_hard_dictionary_list.index(x)
-            new_txt += key_hard_dictionary_list[i]
+        if x in val_dictionary_list:
+            i = val_dictionary_list.index(x)
+            new_txt += key_dictionary_list[i]
         else:
             new_txt += x[0:1]
     return new_txt 
@@ -70,10 +91,12 @@ def main():
         print("You need more option. TODO HELP")
         return 0
     fraze = sys.stdin.read()
+    lang = option[2]
+    dictionary = make_dictionary(lang)
     if "-c" in option:
-        output_txt = code(fraze)    
+        output_txt = code(fraze,dictionary)    
     elif "-d" in option:
-        output_txt = decode(fraze)
+        output_txt = decode(fraze,dictionary)
     else:
         print("Wrong key. See help")
         return 1
