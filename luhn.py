@@ -15,8 +15,7 @@ def number_sum(string):
         if x % 2 == 0:
             number = (int(numbers[x]) * 2)
             if int(number) > 9:
-                double_numbers = list(str(number))
-                number = int(double_numbers[0]) + int(double_numbers[1])
+                number = number - 9
         else:
             number = (numbers[x])
         number_sum += int(number)
